@@ -1,1 +1,2 @@
-Insert some clever text here.\n
+Insert some clever text here.
+
