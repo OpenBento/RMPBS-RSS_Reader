@@ -1,0 +1,141 @@
+<!-- SmartSnippets Variables
+article_count = TextField
+default_image = ImageField
+feed_title = TextField
+feed_url = TextField
+source_name = TextField
+source_url = TextField
+title_class = TextField
+title_style = TextField
+title_url = TextField
+
+images = Select|values=none,small,large
+display = Select|values=excerpt,titles,video-grid
+feed_format = Select|values=RSS/Atom, WordPress JSON
+responsive = Select|values=yes,no
+show_title = Select|values=true,false
+-->
+
+
+
+<style>
+h2.rss_title{
+font-size:150%;
+margin-bottom:5px;
+}
+div.rss_excerpt,
+article.rss_excerpt{
+line-height: 115%;
+margin-bottom:15px;
+padding-bottom:10px;
+border-bottom:#CCC solid thin;
+}
+div.rss_excerpt_last,
+article.rss_excerpt_last{
+line-height: 115%;
+border-bottom:none;
+} 
+    {% if "JSON" in feed_format %}
+    {{ feed_title|slugify }} .json_thmb{
+        float:left;
+        padding-right:12px;
+        max-height:{% if 'large' in images %}180px{% else %}127px{% endif %};
+        overflow:hidden;
+        width:{% if 'large' in images %}275px{% else %}120px{% endif %};
+        vertical-align:middle;
+    }
+    @media (max-width:480px){
+    .json_thmb{
+        width:100%;
+    
+}
+    {% endif %}
+    #{{ feed_title|slugify }} .rss_thmb{
+        float:left;
+        padding-right:12px;
+        max-height:{% if 'large' in images %}180px{% else %}127px{% endif %};
+        overflow:hidden;
+        width:{% if 'large' in images %}275px{% else %}120px{% endif %};
+        vertical-align:middle;
+    }
+.rss_excerpt p,
+.rss_excerpt_last p{
+}
+
+.feed-group {
+        padding:5px;
+}
+    
+.feed-group div,
+.feed-group div	div{
+  line-height:10px;
+  padding:0px;
+  margin:0px;
+}
+.feed-group div	div li{
+  line-height:12px;
+}
+h2.section-header a,
+    h2.section-header a:hover {
+        color:#FFF;   
+    }
+    
+    .rss_video{
+	float:left;
+	width:calc(100%/3 - 6px);
+/*	width:250px;*/
+	padding:3px;
+	height:190px;
+	overflow: hidden;
+    }
+    
+    
+</style>
+
+<script>
+
+if(page_feed_count){page_feed_count ++;}else{var page_feed_count = 1;}
+
+    
+$j(document).ready(function(){
+    
+
+    rssFeed = new Feed({% if feed_title %}"{{ feed_title }}"{% else %}"reader-feed"{% endif %},"{{ feed_url }}",{% if feed_format == "WordPress JSON"%}'JSON'{% else %}'RSS'{% endif %});
+rssFeed.display = '{{ display }}';
+{% if show_title == 'false' %}rssFeed.show_title = false;{% endif %}
+{% if title_url %}rssFeed.title_url = "{{ title_url }}";{% endif %}
+rssFeed.pub_div = {% if feed_title %}"{{ feed_title|slugify }}"{% else %}"reader-feed"{% endif %};
+rssFeed.title_class="{{ title_class }}";
+rssFeed.title_style="{{title_style}}";
+rssFeed.article_count="{% if article_count %}{{article_count}}{% else %}3{% endif %}"; 
+{% if 'excerpt' in display %}
+	rssFeed.box_class = "box promo-container clearfix one-promo vertical";
+    {% if 'large' in images %}
+        rssFeed.box_class = rssFeed.box_class +" with-image";
+     {%endif%}
+	{% if show_title == 'false' %}
+    rssFeed.box_class = rssFeed.box_class + " span12";
+     {%endif%}
+    rssFeed.item_class = "promo span12"; 
+ {% elif 'video-grid' in display %}
+	rssFeed.box_class = "box clearfix";
+ {%endif%}
+
+{% if source_name %}
+rssFeed.source_name = "{{source_name}}";
+{% endif %}         
+
+{% if source_url %}
+rssFeed.source_url = "{{source_url}}";
+{% endif %}         
+
+{% if default_image %}
+rssFeed.default_image = "{{default_image}}";
+{% endif %}         
+
+rssFeed.renderFeed();
+
+
+});
+</script>
+<{% if responsive = 'yes' %}div{% else %}article class="tol-three-b clearfix"{% endif %} id={% if feed_title %}"{{ feed_title|slugify }}"{% else %}"reader-feed"{% endif %}></{% if responsive = 'yes' %}div{% else %}article{% endif %}>
