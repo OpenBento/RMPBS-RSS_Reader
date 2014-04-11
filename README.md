@@ -7,8 +7,9 @@ Excerpts with large images:
 
 ![Alt text](/examples/excerpt-large.png "Excerpt with large images")
 
-Excerpts with no images and small images (respectively:
+Excerpts with no images and small images (respectively):
 ![Alt text](/examples/excerpt-small-none.png "Excerpt with no images and small images")
 
 Video Grid:
+
 ![Alt text](/examples/video-grid.png "Video Grid")
