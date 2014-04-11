@@ -1,4 +1,4 @@
 RMPBS-RSS_Reader
 ================
 
-RSS Reader developed for the PBS Bento platform
+RSS Reader that ingests third party feeds and outputs as formatted content supporting titles/excerpts/videos(beta)
